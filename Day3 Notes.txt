@@ -1,0 +1,79 @@
+Day 3
+
+Robotic Process Automation - This itself is not an AI. It was the one already existing but now we are going to use AI to make the maximum usage of it
+
+RPA can be done with 2 tech
+
+1. Pyautogui to automate Desktop applications
+2. Playwright for Web applications
+
+Day 3 on Git push commands was totally confusing but Got the subject and purpose
+
+1. PyAutoGui
+
+1. It is a package of Python
+
+It can do Mouse and Keyboard automatically
+
+2. How to Create Virtual Environment
+
+GO to Terminal -> Python -m venv venv
+Rule: There should be only 1 virtual environment for one folder
+
+
+3. Then to Activate the Virtual environment
+
+command -> venv\scripts\Activate
+
+4. Install PyAutoGui
+
+command-> pip install pyautogui
+
+Close the Terminal
+
+5. Create a file basic_pyautogui.py in the folder
+
+
+Enter the headers
+
+import pyautogui
+pyautogui.FAILSAFE = True
+pyautogui.pause = 1.0
+
+Go to Terminal
+
+Make sure you are inside the folder in the Terminal path
+then Enter 
+command -> python basic_pyautogui.py 
+
+It can do
+
+Mouse 
+Keyboard
+Switch between windows
+Take screenshot
+Image recognition
+
+Workout 
+Automation using PyAutoGui
+
+Do windows key+r -> type "notepad" and hit enter -> type "Do you anything getting typed here.?
+Its not your pyautogui. I’m a PEI! 
+Wanna see me??"
+
+press the windows key -> type "edge" -> Hit Enter -> type "ghost sitting in the dark"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
