@@ -1,79 +1,84 @@
-Day 3
+Day 3 – Study-Friendly Summary
 
-Robotic Process Automation - This itself is not an AI. It was the one already existing but now we are going to use AI to make the maximum usage of it
+Topic: Robotic Process Automation (RPA)
+- RPA is NOT AI; it existed earlier.
+- AI is now used to enhance RPA and make automation smarter.
+- Two main tools for RPA:
+  1. PyAutoGUI → Desktop automation
+  2. Playwright → Web automation
 
-RPA can be done with 2 tech
+------------------------------------------------------------
+PyAutoGUI Basics
+------------------------------------------------------------
+- PyAutoGUI is a Python package for automating:
+  • Mouse actions
+  • Keyboard typing
+  • Window switching
+  • Screenshots
+  • Image recognition
 
-1. Pyautogui to automate Desktop applications
-2. Playwright for Web applications
+------------------------------------------------------------
+Setting Up PyAutoGUI
+------------------------------------------------------------
 
-Day 3 on Git push commands was totally confusing but Got the subject and purpose
+1. Create Virtual Environment
+   Command:
+   python -m venv venv
+   Rule: One virtual environment per project folder.
 
-1. PyAutoGui
+2. Activate Virtual Environment
+   Command:
+   venv\scripts\Activate
 
-1. It is a package of Python
+3. Install PyAutoGUI
+   Command:
+   pip install pyautogui
 
-It can do Mouse and Keyboard automatically
+4. Create Script File
+   File name:
+   basic_pyautogui.py
 
-2. How to Create Virtual Environment
+   Add these lines:
+   import pyautogui
+   pyautogui.FAILSAFE = True
+   pyautogui.pause = 1.0
 
-GO to Terminal -> Python -m venv venv
-Rule: There should be only 1 virtual environment for one folder
+5. Run the Script
+   Command:
+   python basic_pyautogui.py
 
+------------------------------------------------------------
+What PyAutoGUI Can Do
+------------------------------------------------------------
+- Control mouse movements and clicks
+- Type text automatically
+- Press keyboard shortcuts
+- Switch between applications
+- Capture screenshots
+- Detect images on screen
 
-3. Then to Activate the Virtual environment
+------------------------------------------------------------
+Practice Automation Flow (Workout)
+------------------------------------------------------------
+Automate the following sequence:
 
-command -> venv\scripts\Activate
+1. Windows Key + R
+2. Type "notepad" → Enter
+3. Type text:
+   "Do you see anything getting typed here?
+    It's not your PyAutoGUI. I’m a PEI!
+    Wanna see me??"
 
-4. Install PyAutoGui
+4. Press Windows Key
+5. Type "edge" → Enter
+6. Type: "ghost sitting in the dark"
 
-command-> pip install pyautogui
+------------------------------------------------------------
+Git (Day 3)
+------------------------------------------------------------
+- Git push commands were confusing.
+- But the purpose and concept are understood.
 
-Close the Terminal
-
-5. Create a file basic_pyautogui.py in the folder
-
-
-Enter the headers
-
-import pyautogui
-pyautogui.FAILSAFE = True
-pyautogui.pause = 1.0
-
-Go to Terminal
-
-Make sure you are inside the folder in the Terminal path
-then Enter 
-command -> python basic_pyautogui.py 
-
-It can do
-
-Mouse 
-Keyboard
-Switch between windows
-Take screenshot
-Image recognition
-
-Workout 
-Automation using PyAutoGui
-
-Do windows key+r -> type "notepad" and hit enter -> type "Do you anything getting typed here.?
-Its not your pyautogui. I’m a PEI! 
-Wanna see me??"
-
-press the windows key -> type "edge" -> Hit Enter -> type "ghost sitting in the dark"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------
+End of Study Summary
+------------------------------------------------------------
