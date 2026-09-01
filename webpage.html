@@ -1,0 +1,575 @@
+Here is the complete, self-contained `index.html` file designed specifically for **Playwright testing**.
+
+It includes explicit `data-testid`, `id`, and standard semantic attributes to make writing locators straightforward.
+
+Save the code below as **`index.html`**, then start your local server using:
+
+```bash
+python -m http.server 8000
+
+```
+
+Navigate to `http://localhost:8000` in your browser or Playwright scripts.
+
+---
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playwright Automation Practice Sandbox</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      margin-right: 0.4rem;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .success-msg {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background-color: #dcfce7;
+      color: var(--success);
+      border-radius: 4px;
+      display: none;
+      font-weight: 500;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.6rem;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    th:hover {
+      background-color: #e2e8f0;
+    }
+
+    /* Drag and Drop */
+    .drag-box {
+      width: 100px;
+      height: 100px;
+      background-color: #3b82f6;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .drop-zone {
+      width: 100%;
+      height: 120px;
+      border: 2px dashed #94a3b8;
+      border-radius: 6px;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+    }
+
+    .drop-zone.over {
+      border-color: var(--primary);
+      background-color: #eff6ff;
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .close-btn {
+      background-color: #64748b;
+      margin-top: 1rem;
+    }
+
+    .close-btn:hover {
+      background-color: #475569;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto 0;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Playwright QA Automation Practice Sandbox</h1>
+    <p>A lightweight sandbox covering common web interactions and locators.</p>
+  </header>
+
+  <main class="container">
+
+    <section class="card" id="form-section" data-testid="section-form">
+      <h2>1. Login Form</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" data-testid="input-username" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" data-testid="input-email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" data-testid="input-password" required />
+        </div>
+        <button type="submit" id="btn-login" data-testid="btn-login">Login</button>
+      </form>
+      <div id="login-welcome-msg" class="success-msg" data-testid="welcome-message"></div>
+    </section>
+
+    <section class="card" id="dropdown-section" data-testid="section-dropdown">
+      <h2>2. Superhero Select</h2>
+      <div class="form-group">
+        <label for="superhero-select">Choose a Hero</label>
+        <select id="superhero-select" data-testid="select-hero">
+          <option value="" disabled selected>-- Select a Hero --</option>
+          <option value="Spiderman">Spiderman</option>
+          <option value="Batman">Batman</option>
+          <option value="Iron Man">Iron Man</option>
+        </select>
+      </div>
+      <p id="hero-display" data-testid="text-selected-hero">Selected: None</p>
+    </section>
+
+    <section class="card" id="checkbox-radio-section" data-testid="section-inputs">
+      <h2>3. Checkbox & Radio</h2>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="newsletter-check" data-testid="chk-newsletter" />
+          Subscribe to newsletter
+        </label>
+        <span id="newsletter-status" data-testid="newsletter-status">Status: Unchecked</span>
+      </div>
+      <div class="form-group">
+        <label>Gender:</label>
+        <label>
+          <input type="radio" name="gender" value="Male" data-testid="radio-male" /> Male
+        </label>
+        <label>
+          <input type="radio" name="gender" value="Female" data-testid="radio-female" /> Female
+        </label>
+        <label>
+          <input type="radio" name="gender" value="Other" data-testid="radio-other" /> Other
+        </label>
+        <p id="gender-display" data-testid="text-selected-gender">Selected: None</p>
+      </div>
+    </section>
+
+    <section class="card" id="table-section" data-testid="section-table">
+      <h2>4. User Data (Click header to sort)</h2>
+      <table id="user-table" data-testid="user-table">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)" data-testid="th-name">Name ⬍</th>
+            <th onclick="sortTable(1)" data-testid="th-age">Age ⬍</th>
+            <th onclick="sortTable(2)" data-testid="th-email">Email ⬍</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr>
+            <td>Bruce Wayne</td>
+            <td>35</td>
+            <td>bruce@wayne.com</td>
+          </tr>
+          <tr>
+            <td>Peter Parker</td>
+            <td>21</td>
+            <td>peter@dailybugle.com</td>
+          </tr>
+          <tr>
+            <td>Tony Stark</td>
+            <td>42</td>
+            <td>tony@stark.com</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="modal-section" data-testid="section-modal">
+      <h2>5. Standard Modal</h2>
+      <p style="margin-bottom: 1rem;">Click below to launch an interactive dialog overlay.</p>
+      <button id="btn-open-modal" data-testid="btn-open-modal">Open Modal</button>
+    </section>
+
+    <section class="card" id="drag-drop-section" data-testid="section-drag-drop">
+      <h2>6. Drag & Drop</h2>
+      <div id="draggable" class="drag-box" draggable="true" data-testid="drag-source">
+        Drag Me
+      </div>
+      <div id="dropzone" class="drop-zone" data-testid="drop-target">
+        Drop here
+      </div>
+      <div id="drag-success" class="success-msg" data-testid="drag-success-msg">Dropped Successfully!</div>
+    </section>
+
+    <section class="card" id="upload-section" data-testid="section-file-upload">
+      <h2>7. File Upload</h2>
+      <div class="form-group">
+        <label for="file-upload">Choose a file</label>
+        <input type="file" id="file-upload" data-testid="input-file" />
+      </div>
+      <p id="file-name-display" data-testid="uploaded-file-name">No file selected.</p>
+    </section>
+
+    <section class="card" id="gallery-section" data-testid="section-gallery">
+      <h2>8. Image Gallery</h2>
+      <div class="gallery-grid">
+        <img src="https://picsum.photos/id/1018/600/400" alt="Landscape 1" class="gallery-item" data-testid="gallery-img-1" />
+        <img src="https://picsum.photos/id/1015/600/400" alt="Landscape 2" class="gallery-item" data-testid="gallery-img-2" />
+        <img src="https://picsum.photos/id/1019/600/400" alt="Landscape 3" class="gallery-item" data-testid="gallery-img-3" />
+      </div>
+    </section>
+
+    <section class="card" id="dynamic-section" data-testid="section-dynamic">
+      <h2>9. Dynamic Content (Async)</h2>
+      <button id="btn-load-dynamic" data-testid="btn-load-dynamic">Load Content (1.5s delay)</button>
+      <div id="spinner" class="spinner" data-testid="loading-spinner"></div>
+      <div id="dynamic-content-area" style="margin-top: 1rem;" data-testid="dynamic-content"></div>
+    </section>
+
+  </main>
+
+  <div id="standard-modal" class="modal-overlay" data-testid="modal-wrapper">
+    <div class="modal-content">
+      <h3 data-testid="modal-title">Practice Modal</h3>
+      <p style="margin-top: 0.5rem;" data-testid="modal-text">This modal was rendered dynamically. You can test overlays, focus trapping, and close events.</p>
+      <button class="close-btn" id="btn-close-modal" data-testid="btn-close-modal">Close</button>
+    </div>
+  </div>
+
+  <div id="image-modal" class="modal-overlay" data-testid="image-modal-wrapper">
+    <div class="modal-content">
+      <img id="modal-img-preview" src="" alt="Expanded View" data-testid="modal-img" />
+      <br />
+      <button class="close-btn" id="btn-close-img-modal" data-testid="btn-close-img-modal">Close Viewer</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Form Handling
+    const loginForm = document.getElementById('login-form');
+    const welcomeMsg = document.getElementById('login-welcome-msg');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      welcomeMsg.textContent = `Welcome back, ${username}!`;
+      welcomeMsg.style.display = 'block';
+    });
+
+    // 2. Dropdown Handling
+    const heroSelect = document.getElementById('superhero-select');
+    const heroDisplay = document.getElementById('hero-display');
+    heroSelect.addEventListener('change', (e) => {
+      heroDisplay.textContent = `Selected: ${e.target.value}`;
+    });
+
+    // 3. Checkbox & Radio Handling
+    const newsletterCheck = document.getElementById('newsletter-check');
+    const newsletterStatus = document.getElementById('newsletter-status');
+    newsletterCheck.addEventListener('change', (e) => {
+      newsletterStatus.textContent = `Status: ${e.target.checked ? 'Checked' : 'Unchecked'}`;
+    });
+
+    const genderRadios = document.querySelectorAll('input[name="gender"]');
+    const genderDisplay = document.getElementById('gender-display');
+    genderRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        genderDisplay.textContent = `Selected: ${e.target.value}`;
+      });
+    });
+
+    // 4. Table Sorting
+    let sortDirections = [true, true, true];
+    function sortTable(columnIndex) {
+      const table = document.getElementById("user-table");
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const isAscending = sortDirections[columnIndex];
+
+      rows.sort((a, b) => {
+        const cellA = a.children[columnIndex].innerText;
+        const cellB = b.children[columnIndex].innerText;
+
+        // If sorting numeric column
+        if (!isNaN(cellA) && !isNaN(cellB)) {
+          return isAscending ? cellA - cellB : cellB - cellA;
+        }
+        // Standard alphabetical string sort
+        return isAscending 
+          ? cellA.localeCompare(cellB) 
+          : cellB.localeCompare(cellA);
+      });
+
+      // Toggle direction state
+      sortDirections[columnIndex] = !isAscending;
+
+      // Re-append sorted rows
+      tbody.innerHTML = '';
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    // 5. Standard Modal
+    const stdModal = document.getElementById('standard-modal');
+    const btnOpenModal = document.getElementById('btn-open-modal');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+
+    btnOpenModal.addEventListener('click', () => stdModal.classList.add('active'));
+    btnCloseModal.addEventListener('click', () => stdModal.classList.remove('active'));
+
+    // 6. HTML5 Drag and Drop
+    const draggable = document.getElementById('draggable');
+    const dropzone = document.getElementById('dropzone');
+    const dragSuccess = document.getElementById('drag-success');
+
+    draggable.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', 'dragged-element');
+    });
+
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('over');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('over');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('over');
+      dropzone.innerText = "Item Dropped!";
+      dragSuccess.style.display = 'block';
+    });
+
+    // 7. File Upload Handling
+    const fileUpload = document.getElementById('file-upload');
+    const fileNameDisplay = document.getElementById('file-name-display');
+    fileUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        fileNameDisplay.textContent = `Selected File: ${file.name}`;
+      }
+    });
+
+    // 8. Image Gallery Modal
+    const imgModal = document.getElementById('image-modal');
+    const modalImgPreview = document.getElementById('modal-img-preview');
+    const btnCloseImgModal = document.getElementById('btn-close-img-modal');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    galleryItems.forEach(img => {
+      img.addEventListener('click', () => {
+        modalImgPreview.src = img.src;
+        imgModal.classList.add('active');
+      });
+    });
+
+    btnCloseImgModal.addEventListener('click', () => {
+      imgModal.classList.remove('active');
+      modalImgPreview.src = "";
+    });
+
+    // 9. Dynamic Content (Async Delay)
+    const btnLoadDynamic = document.getElementById('btn-load-dynamic');
+    const spinner = document.getElementById('spinner');
+    const dynamicContentArea = document.getElementById('dynamic-content-area');
+
+    btnLoadDynamic.addEventListener('click', () => {
+      spinner.style.display = 'block';
+      dynamicContentArea.innerHTML = '';
+      btnLoadDynamic.disabled = true;
+
+      setTimeout(() => {
+        spinner.style.display = 'none';
+        dynamicContentArea.innerHTML = `
+          <div style="border-left: 4px solid var(--primary); padding-left: 0.75rem;">
+            <h4>Async Item Loaded</h4>
+            <p>This payload was rendered after a 1.5-second network-like delay.</p>
+          </div>
+        `;
+        btnLoadDynamic.disabled = false;
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
+
+```

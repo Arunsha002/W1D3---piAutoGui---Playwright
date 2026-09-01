@@ -1,0 +1,7 @@
+Playwright
+
+How to install
+
+pip install playwright
+playwright install chromium
+
